@@ -1,7 +1,7 @@
-import React, { useReducer } from "react";
-import uuid from "uuid";
-import ContactContext from "./contactcontext";
-import contactReducer from "./contactReducer";
+import React, { useReducer } from 'react';
+import uuid from 'uuid';
+import ContactContext from './contactcontext';
+import contactReducer from './contactReducer';
 import {
   ADD_CONTACT,
   DELETE_CONTACT,
@@ -12,32 +12,32 @@ import {
   CLEAR_FILTER,
   SET_ALERT,
   REMOVE_ALERT
-} from "../types";
-import { domainToASCII } from "url";
+} from '../types';
+import { domainToASCII } from 'url';
 
 const ContactState = props => {
   const initialState = {
     contacts: [
       {
         id: 1,
-        name: "Panos Anas",
-        email: "panos@domain.com",
-        phone: "111-111-1111",
-        type: "personal"
+        name: 'Panos Anas',
+        email: 'panos@domain.com',
+        phone: '111-111-1111',
+        type: 'personal'
       },
       {
         id: 2,
-        name: "Amalia Anas",
-        email: "amalia@domain.com",
-        phone: "222-222-2222",
-        type: "personal"
+        name: 'Amalia Anas',
+        email: 'amalia@domain.com',
+        phone: '222-222-2222',
+        type: 'personal'
       },
       {
-        id: 1,
-        name: "Popi Anas",
-        email: "popi@domain.com",
-        phone: "333-333-3333",
-        type: "professional"
+        id: 3,
+        name: 'Popi Anas',
+        email: 'popi@domain.com',
+        phone: '333-333-3333',
+        type: 'professional'
       }
     ]
   };
@@ -49,11 +49,16 @@ const ContactState = props => {
     dispatch({ type: ADD_CONTACT, payload: contact });
   };
 
+  const deleteContact = id => {
+    dispatch({ type: DELETE_CONTACT, payload: id });
+  };
+
   return (
     <ContactContext.Provider
       value={{
         contacts: state.contacts,
-        addContact
+        addContact,
+        deleteContact
       }}
     >
       {props.children}

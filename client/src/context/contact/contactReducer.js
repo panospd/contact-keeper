@@ -8,8 +8,8 @@ import {
   CLEAR_FILTER,
   SET_ALERT,
   REMOVE_ALERT
-} from "../types";
-import { stat } from "fs";
+} from '../types';
+import { stat } from 'fs';
 
 export default (state, action) => {
   switch (action.type) {
@@ -17,6 +17,13 @@ export default (state, action) => {
       return {
         ...state,
         contacts: [...state.contacts, action.payload]
+      };
+    case DELETE_CONTACT:
+      return {
+        ...state,
+        contacts: state.contacts.filter(
+          contact => contact.id !== action.payload
+        )
       };
     default:
       return state;
