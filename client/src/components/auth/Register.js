@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
 
-const Register = () => {
+const Register = props => {
   const [user, setUser] = useState({
     name: '',
     email: '',
@@ -11,14 +11,22 @@ const Register = () => {
   });
 
   const { setAlert } = useContext(AlertContext);
-  const { register, error, clearErrors } = useContext(AuthContext);
+  const { register, error, clearErrors, isAuthenticated } = useContext(
+    AuthContext
+  );
 
   useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push('/');
+    }
+
     if (error) {
       setAlert(error, 'danger');
       clearErrors();
     }
-  }, [error]);
+
+    // eslint-disable-line
+  }, [error, isAuthenticated, props.history]);
 
   const { name, email, password, confirmPassword } = user;
 
