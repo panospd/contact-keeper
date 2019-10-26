@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://panospd:panospd123@contactkeeper-axfl8.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "secret"
+}
