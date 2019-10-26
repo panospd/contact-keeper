@@ -37,9 +37,9 @@ export default (state, action) => {
     case UPDATE_CONTACT:
       return {
         ...state,
-        contacts: state.contacts.filter(contact =>
-          contact.id === action.payload.id ? action.payload : contact
-        )
+        contacts: state.contacts.map(contact => {
+          return contact.id === action.payload.id ? action.payload : contact;
+        })
       };
     case FILTER_CONTACTS:
       return {
