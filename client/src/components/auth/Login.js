@@ -1,10 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alert/alertContext';
 
-const Login = () => {
+const Login = props => {
+  const authContext = useContext(AuthContext);
+  const alertContext = useContext(AlertContext);
+
+  const { login, error, clearErrors, isAuthenticated } = authContext;
+  const { setAlert } = alertContext;
+
   const [user, setUser] = useState({
     email: '',
     password: ''
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push('/');
+    }
+
+    if (error) {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+
+    // eslint-disable-line
+  }, [error, isAuthenticated, props.history]);
 
   const { email, password } = user;
 
@@ -15,9 +36,14 @@ const Login = () => {
     });
   };
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
-    console.log('Login submit');
+
+    if (!email || !password) {
+      setAlert('Please fill in all fields', 'danger');
+    } else {
+      await login({ email, password });
+    }
   };
 
   return (
@@ -28,7 +54,13 @@ const Login = () => {
       <form onSubmit={onSubmit}>
         <div className='form-group'>
           <label htmlFor='email'>Email</label>
-          <input type='email' name='email' value={email} onChange={onChange} />
+          <input
+            type='email'
+            name='email'
+            value={email}
+            onChange={onChange}
+            required
+          />
         </div>
         <div className='form-group'>
           <label htmlFor='password'>Password</label>
@@ -37,11 +69,12 @@ const Login = () => {
             name='password'
             value={password}
             onChange={onChange}
+            required
           />
         </div>
         <input
           type='submit'
-          value='Register'
+          value='Login'
           className='btn btn-primary btn-block'
         />
       </form>
